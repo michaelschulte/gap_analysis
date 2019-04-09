@@ -1,0 +1,84 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r echo = FALSE}
+library(tidyverse)
+library(haven)
+# devtools::install_github("gitronald/IPtoCountry")
+library(IPtoCountry)
+
+# load data
+exp1 <- read_sav('1_data/Dr Missing Dimension.sav')
+exp4 <- read_sav('1_data/mulitple profiles.sav')
+exp5 <- read_sav('1_data/Provider disclosures.sav')
+exp3 <- read_sav('1_data/Salience and Perspective Taking.sav')
+exp2 <- read_sav('1_data/Salience non disclosure breakeven.sav')
+```
+
+
+```{r eval = TRUE}
+# Distribution of response times
+exp_p <- 
+  exp1 %>%
+  mutate(time_diff = EndDate - StartDate) %>%
+  ggplot(aes(time_diff)) +
+  geom_density()
+  
+exp_p
+```
+
+```{r eval = TRUE}
+# Distribution of response times
+exp_p <- 
+  exp2 %>%
+    mutate(time_diff = EndDate - StartDate) %>%
+    ggplot(aes(time_diff)) +
+    geom_density()
+
+exp_p
+```
+
+```{r eval = TRUE}
+# Distribution of response times
+exp_p <- 
+   exp4 %>%
+    ggplot(aes(Timetaken)) +
+    geom_density()
+  
+exp_p
+```
+
+```{r eval = TRUE}
+# Distribution of response times
+exp_p <- 
+   exp5 %>%
+    mutate(time_diff = EndDate - StartDate) %>%
+    ggplot(aes(time_diff)) +
+    geom_density()
+  
+exp_p
+```
+
+
+
+```{r}
+# where do people come from?
+  exp1 %>%
+    select(IPAddress) %>%
+    mutate(IP_int = IP_integer(IPAddress),
+           Country = IP_lookup(IP_int)) %>% 
+    count(Country) 
+```
+ 
+```{r}
+# where do people come from?
+   exp2 %>%
+    select(IPAddress) %>%
+    mutate(IP_int = IP_integer(IPAddress),
+           Country = IP_lookup(IP_int)) %>% 
+    count(Country) 
+```  
+ 
+
